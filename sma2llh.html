@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestion des Risques</title>
+    <style>
+        /* Style général */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+        /* Style pour le header */
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        /* Style pour le tableau des catégories */
+        table {
+            width: 80%;
+            margin: 2rem auto;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 0.5rem;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        /* Style pour les listes de risques */
+        .risque-list {
+            display: none;
+            margin-left: 2rem;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 1rem;
+            border-radius: 5px;
+            width: 70%;
+        }
+
+        .risque-list .risque {
+            cursor: pointer;
+            color: #4CAF50;
+            text-decoration: underline;
+        }
+
+        /* Style pour le formulaire de signalement */
+        .signalement {
+            display: none;
+            margin: 2rem auto;
+            width: 60%;
+            padding: 1rem;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            border-radius: 5px;
+        }
+
+        /* Style pour le footer */
+        footer {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Interaction pour les boutons */
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    Bienvenue sur le Site de Gestion des Risques
+</header>
+
+<body>
+    <h2>Catégories de Risques</h2>
+    <table>
+        <tr>
+            <th>Catégorie</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td class="categorie" onclick="showRisqueList('humaines')">Risques Humains</td>
+            <td>Risques liés à des erreurs humaines, des comportements dangereux, etc.</td>
+        </tr>
+        <tr>
+            <td class="categorie" onclick="showRisqueList('materiels')">Risques Matériels</td>
+            <td>Risques liés aux équipements, bâtiments, etc.</td>
+        </tr>
+        <tr>
+            <td class="categorie" onclick="showRisqueList('naturels')">Risques Naturels</td>
+            <td>Risques causés par des phénomènes naturels comme les tempêtes, les inondations, etc.</td>
+        </tr>
+        <tr>
+            <td class="categorie" onclick="showRisqueList('informatiques')">Risques Informatiques</td>
+            <td>Risques liés aux systèmes informatiques et aux données.</td>
+        </tr>
+        <tr>
+            <td class="categorie" onclick="showRisqueList('financiers')">Risques Financiers</td>
+            <td>Risques liés aux finances, aux investissements, etc.</td>
+        </tr>
+        <!-- Ajoutez plus de catégories selon le besoin -->
+    </table>
+
+    <!-- Liste des risques dynamiques -->
+    <div class="risque-list" id="humaines">
+        <h3>Risques Humains</h3>
+        <p class="risque" onclick="showSignalementForm('Erreur de Manipulation')">Erreur de Manipulation</p>
+        <p class="risque" onclick="showSignalementForm('Non-respect des Consignes')">Non-respect des Consignes</p>
+    </div>
+
+    <div class="risque-list" id="materiels">
+        <h3>Risques Matériels</h3>
+        <p class="risque" onclick="showSignalementForm('Défaillance de l'Équipement')">Défaillance de l'Équipement</p>
+        <p class="risque" onclick="showSignalementForm('Incendie')">Incendie</p>
+    </div>
+
+    <div class="risque-list" id="naturels">
+        <h3>Risques Naturels</h3>
+        <p class="risque" onclick="showSignalementForm('Inondation')">Inondation</p>
+        <p class="risque" onclick="showSignalementForm('Tempête')">Tempête</p>
+    </div>
+
+    <div class="risque-list" id="informatiques">
+        <h3>Risques Informatiques</h3>
+        <p class="risque" onclick="showSignalementForm('Cyberattaque')">Cyberattaque</p>
+        <p class="risque" onclick="showSignalementForm('Panne Système')">Panne Système</p>
+    </div>
+
+    <div class="risque-list" id="financiers">
+        <h3>Risques Financiers</h3>
+        <p class="risque" onclick="showSignalementForm('Perte de Revenus')">Perte de Revenus</p>
+        <p class="risque" onclick="showSignalementForm('Mauvaise Gestion')">Mauvaise Gestion</p>
+    </div>
+
+    <!-- Formulaire de signalement -->
+    <div class="signalement" id="signalement-form">
+        <h3>Signaler un Risque</h3>
+        <p>Nom du Risque: <span id="nom-risque"></span></p>
+        <label pour="commentaire">Commentaire:</label><br>
+        <textarea id="commentaire" rows="4" cols="50"></textarea><br>
+        <label pour="responsable">Responsable:</label><br>
+        <input type="text" id="responsable" value="Med Lemin"><br><br>
+        <button onclick="signalerRisque()">Signaler</button>
+    </div>
+    
+    <footer>
+        <button onclick="voirRisquesSignales()">Voir les Risques Signalés</button>
+    </footer>
+    
+    <div id="risques-signales" style="display: none;">
+        <!-- Les risques signalés apparaîtront ici -->
+    </div>
+
+    <script>
+        // Fonction pour afficher la liste des risques
+        function showRisqueList(categorie) {
+            var listes = document.getElementsByClassName("risque-list");
+            for (var i = 0; i < listes.length; i++) {
+                listes[i].style.display = 'none';
+            }
+            document.getElementById(categorie).style.display = 'block';
+        }
+
+        // Fonction pour afficher le formulaire de signalement
+        function showSignalementForm(nomRisque) {
+            document.getElementById("signalement-form").style.display = 'block';
+            document.getElementById("nom-risque").innerText = nomRisque;
+        }
+
+        // Fonction pour signaler un risque
+        function signalerRisque() {
+            var nomRisque = document.getElementById("nom-risque").innerText;
+            var commentaire = document.getElementById("commentaire").value;
+            var responsable = document.getElementById("responsable").innerText;
+
+            var risquesSignales = document.getElementById("risques-signales");
+            var divRisque = document.createElement("div");
+            divRisque.innerHTML = `<strong>Risque: ${nomRisque}</strong><br>Commentaire: ${commentaire}<br>Responsable: ${responsable}<br><br>`;
+            risquesSignales.appendChild(divRisque);
+
+            document.getElementById("signalement-form").style.display = 'none';
+            document.getElementById("commentaire").value = '';
+            document.getElementById("responsable").value = '';
+        }
+
+        // Fonction pour voir les risques signalés
+        function voirRisquesSignales() {
+            var risquesSignales = document.getElementById("risques-signales");
+            if (risquesSignales.style.display === 'none') {
+                risquesSignales.style.display = 'block';
+            } else {
+                risquesSignales.style.display = 'none';
+            }
+        }
+    </script>
+
+</body>
